@@ -2,17 +2,16 @@
 name: application
 about: Fill information necessary to determine approval
 title: ''
-labels: ''
-assignees: ''
+labels: project application
+assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 
 ---
 
 ---
+
 name: New Pipeline Foundation Project Application
 about: Creates a public issue to track your projects application to join the Pipeline Foundation.
 title: ''
-labels: 'project application'
-projects: 'Project Onboarding'
 
 ---
 

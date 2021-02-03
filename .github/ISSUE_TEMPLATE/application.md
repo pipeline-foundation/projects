@@ -1,7 +1,7 @@
 ---
 name: application
 about: Fill information necessary to determine approval
-title: ''
+title: project-name
 labels: project application
 assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 

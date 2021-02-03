@@ -1,6 +1,6 @@
 ---
 name: application
-about: Fill information necessary to determine approval
+about: Information necessary to determine eligibility
 title: project-name
 labels: project application
 assignees: kulov, ross-bohr, szlatkow, aleks-ivanov

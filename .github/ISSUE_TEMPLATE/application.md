@@ -27,7 +27,9 @@ assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 ## 3.   Representative
 
 **Name:**
+
 **Email:**
+
 **GitHub Profile URL:**
 
 ## 4.   Existing DevSecOps pipelines, automations and tools

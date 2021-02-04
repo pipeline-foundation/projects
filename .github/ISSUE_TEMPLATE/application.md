@@ -11,21 +11,13 @@ assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 
 **Project Name:**  
 
-**License:**  
-
-**Contributor (Company, Organization or individual name(s)):**  
-
-**Existing OSS Project? (Yes/No):**  
-
-**Source Code URL:**  
-
-**Project Homepage URL (if different):**  
+**GitHub URL:**  
 
 ## 2.   Description
 
-**Please provide a brief statement about your project in terms that are understandable to the target consumer of the library or project, i.e. an elevator pitch for the project:**
+**Please provide a brief description about your project, i.e. an elevator pitch for the project:**
 
-## 3.   Representative
+## 3.   Contact Person
 
 **Name:**  
 
@@ -33,13 +25,27 @@ assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 
 **GitHub Profile URL:**  
 
-## 4.   Existing DevSecOps pipelines, automations and tools
-
-**Please provide information about any existing DevSecOps pipelines, automations (e.g. package publishing, release publishing etc.) or tools (e.g. code-quality, dependency management etc.) you have implemented**
-
-## 5.  Eligibility Criteria
+## 4.  Eligibility Criteria
 
 Please complete the following for your project:
 
-* The project has build instructions in README.
+* Project has build instructions.
+- [ ] Yes
+* Project has semantic versioning.
+- [ ] Yes
+* Project has dependencies management.
+- [ ] Yes
+* Project has automated tests.
+- [ ] Yes
+* Project has code quality analysis.
+- [ ] Yes
+* Project has code security scanning.
+- [ ] Yes
+* Project has secrets management.
+- [ ] Yes
+* Project has GitHub releases.
+- [ ] Yes
+* Project has artifacts publishing.
+- [ ] Yes
+* Project has automated deployment.
 - [ ] Yes

@@ -7,17 +7,17 @@ assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 
 ---
 
-## 1.   General Information
+## 1.  General Information
 
 **Project Name:**  
 
 **GitHub URL:**  
 
-## 2.   Description
+## 2.  Description
 
 **Please provide a brief description about your project, i.e. an elevator pitch for the project:**
 
-## 3.   Contact Person
+## 3.  Contact Person
 
 **Name:**  
 

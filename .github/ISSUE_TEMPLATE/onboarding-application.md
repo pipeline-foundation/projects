@@ -1,7 +1,7 @@
 ---
 name: Onboarding application
 about: Information necessary to determine eligibility and required contributions
-title: project-name
+title: owner/repo
 labels: project application
 assignees: kulov, ross-bohr, szlatkow, aleks-ivanov
 

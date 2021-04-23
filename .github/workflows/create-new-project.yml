@@ -1,0 +1,60 @@
+name: Create new project from issue
+
+on: 
+  issues:
+    types: [ opened ]
+
+jobs:
+  create-forks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute fork creation
+        id: execute_fork_creation
+        shell: pwsh
+        run: |
+          Start-Job -Name Create_PF_Fork -ScriptBlock {
+            $projectRepo = "${{ github.event.issue.title }}"
+            $projectName = $projectRepo.Substring(($projectRepo.IndexOf('/') + 1))
+            $newProject = "https://api.github.com/repos/$projectRepo/forks"
+            $basicBase64Token = "${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}"
+            $headers = @{
+              'Accept'        = 'application/vnd.github.v3+json';
+              'Authorization' = "Basic {0}" -f $basicBase64Token;
+            }
+            $body = @{
+              organization = 'pipeline-foundation'
+            } | ConvertTo-Json
+
+            Invoke-RestMethod -Method POST -Headers $headers -Uri $newProject -Body $body
+          }
+
+          Wait-Job -Name Create_PF_Fork
+
+          Write-Output "`n`nPipeline Foundation fork created!`n`n"
+
+          Start-Job -Name Create_PF_Fork_Branches -ScriptBlock {
+            $branchesArr = @(
+              'dependabot',
+              'codeql',
+              'ci-cd'
+            )
+            $projectRepo = "${{ github.event.issue.title }}"
+            $projectName = $projectRepo.Substring(($projectRepo.IndexOf('/') + 1))
+            $pfRepo = "pipeline-foundation/$projectName"
+            $pfUri = "https://api.github.com/repos/$pfRepo"
+            $defaultBranch = Invoke-RestMethod -Method GET -Uri $pfUri | Select-Object -ExpandProperty default_branch
+
+            git clone https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/$pfRepo.git
+            Push-Location $projectName
+            git checkout $defaultBranch
+            foreach ($branch in $branchesArr) {
+              git branch feature/$branch
+              git checkout feature/$branch
+              git push origin feature/$branch
+              git checkout $defaultBranch
+            }
+          }
+
+          Wait-Job -Name Create_PF_Fork_Branches
+
+          Write-Output "`n`nPipeline Foundation fork branches created!`n`n"

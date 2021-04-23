@@ -87,4 +87,6 @@ jobs:
             }
           }
 
+          Wait-Job -Name Create_Mambers_Forks
+
           Write-Output "`n`nMembers fork created!`n`n"

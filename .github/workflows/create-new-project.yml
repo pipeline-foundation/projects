@@ -64,29 +64,30 @@ jobs:
 
           Write-Output "`n`nCommencing members fork creation...`n`n"
 
-          Start-Job -Name Create_Mambers_Forks -ScriptBlock {
-            $membersArr = @(
-              [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" }
-            )
-            $pfProjectFork = "https://api.github.com/repos/$Using:pfRepo/forks"
+          $membersArr = @(
+            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" }
+          )
+          $pfProjectFork = "https://api.github.com/repos/$pfRepo/forks"
 
-            foreach ($member in $membersArr) {
-              $memberName = $member.name
-              $memberToken = $member.token
-              $basicToken = "${memberName}:${memberToken}"
-              $basicBase64Token = [System.Convert]::ToBase64String([char[]]$basicToken)
-              $headers = @{
-                'Accept'        = 'application/vnd.github.v3+json';
-                'Authorization' = "Basic {0}" -f $basicBase64Token;
-              }
-              $body = @{
-                owner = 'aleks-ivanov'
-              } | ConvertTo-Json
+          foreach ($member in $membersArr) {
+            $memberName = $member.name
+            $memberToken = $member.token
+            $basicToken = "${memberName}:${memberToken}"
+            $basicBase64Token = [System.Convert]::ToBase64String([char[]]$basicToken)
+            $headers = @{
+              'Accept'        = 'application/vnd.github.v3+json';
+              'Authorization' = "Basic {0}" -f $basicBase64Token;
+            }
+            $body = @{
+              owner = 'aleks-ivanov'
+            } | ConvertTo-Json
 
+            try {
               Invoke-RestMethod -Method POST -Headers $headers -Uri $pfProjectFork -Body $body
             }
+            catch {
+              Write-Output "Error!"
+            }
           }
-
-          Wait-Job -Name Create_Mambers_Forks
 
           Write-Output "`n`nMembers fork created!`n`n"

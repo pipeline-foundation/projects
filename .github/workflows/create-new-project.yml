@@ -69,6 +69,7 @@ jobs:
               [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" }
             )
             $pfProjectFork = "https://api.github.com/repos/$Using:pfRepo/forks"
+            
             foreach ($member in $membersArr) {
               $memberName = $member.name
               $memberToken = $member.token

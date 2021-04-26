@@ -65,7 +65,8 @@ jobs:
           Write-Output "`n`nCommencing members fork creation...`n`n"
 
           $membersArr = @(
-            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" }
+            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" },
+            [pscustomobject]@{ name = "szlatkow"; token = "${{ secrets.SZLATKOW_GITHUB_TOKEN }}" }
           )
           $pfProjectFork = "https://api.github.com/repos/$pfRepo/forks"
 

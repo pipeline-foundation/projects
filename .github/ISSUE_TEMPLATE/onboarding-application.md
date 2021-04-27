@@ -50,9 +50,9 @@ Please complete the following for your project:
 * Project has automated deployment.
 - [ ] Yes
 
-## 5.  Required contributions
+## 5.  Requested contributions
 
-** Please add the required contributions as list items below e.g. dependency management, code quality and security, automated versioning etc. **
+** Please list below the features you would like us to contribute to your project e.g. dependency management, code quality and security, automated versioning etc. **
 
 - ...
 - ...

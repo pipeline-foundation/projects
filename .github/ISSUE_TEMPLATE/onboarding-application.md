@@ -49,6 +49,8 @@ Please complete the following for your project:
 - [ ] Yes
 * Project has automated deployment.
 - [ ] Yes
+* GitHub Codespaces configuration.
+- [ ] Yes
 
 ## 5.  Requested contributions
 

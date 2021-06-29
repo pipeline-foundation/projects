@@ -41,6 +41,7 @@ jobs:
 
           Start-Job -Name Create_PF_Fork_Branches -ScriptBlock {
             $branchesArr = @(
+              'codespace',
               'dependabot',
               'codeql',
               'ci-cd'
@@ -81,7 +82,7 @@ jobs:
               'Authorization' = "Basic {0}" -f $basicBase64Token;
             }
             $body = @{
-              owner = 'aleks-ivanov'
+              owner = $memberName
             } | ConvertTo-Json
 
             try {

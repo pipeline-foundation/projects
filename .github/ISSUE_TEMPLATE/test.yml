@@ -1,22 +1,32 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: [bug, triage]
+name: Onboarding application 2
+description: Information necessary to determine eligibility and required contributions
+title: "owner/repo"
+labels: [ 'project application' ]
 assignees:
-  - octocat
+  - aleks-ivanov
+  - kulov
+  - ross-bohr
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        ## 1.  General Information
   - type: input
-    id: contact
+    id: project-name
     attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
+      label: 'Project Name:'
     validations:
-      required: false
+      required: true
+  - type: input
+    id: github-url
+    attributes:
+      label: 'GitHub URL:'
+    validations:
+      required: true
+
+
+
+
   - type: textarea
     id: what-happened
     attributes:

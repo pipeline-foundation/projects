@@ -30,7 +30,28 @@ body:
       label: 'Project description:'
     validations:
       required: true
-
+  - type: markdown
+    attributes:
+      value: |
+        ## 2.  Contact person
+  - type: input
+    id: cp-name
+    attributes:
+      label: 'Name:'
+    validations:
+      required: true
+  - type: input
+    id: cp-email
+    attributes:
+      label: 'Email:'
+    validations:
+      required: true
+  - type: input
+    id: cp-gh-profile
+    attributes:
+      label: 'GitHub Profile URL:'
+    validations:
+      required: true
 
 
 

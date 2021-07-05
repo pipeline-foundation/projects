@@ -6,11 +6,12 @@ assignees:
   - aleks-ivanov
   - kulov
   - ross-bohr
+  - szlatkow
 body:
   - type: markdown
     attributes:
       value: |
-        ## 1.  General Information
+        ## 1.  Project Information
   - type: input
     id: project-name
     attributes:
@@ -21,6 +22,12 @@ body:
     id: github-url
     attributes:
       label: 'GitHub URL:'
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 'Project description:'
     validations:
       required: true
 

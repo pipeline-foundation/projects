@@ -8,6 +8,7 @@ jobs:
   create-forks:
     name: Create forks
     runs-on: ubuntu-latest
+    environment: application_submission
     steps:
       - name: Execute fork creation
         id: execute_fork_creation

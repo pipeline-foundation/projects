@@ -11,7 +11,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        # 1.  Project Information
+        "# 1.  Project Information"
   - type: input
     id: project-name
     attributes:

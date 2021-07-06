@@ -61,7 +61,7 @@ body:
   - type: checkboxes
     id: build-instructions
     attributes:
-      label: Project has build instructions:
+      label: 'Project has build instructions:'
       description: Does the project have `Contributors guide` or build pipeline/script ?
       options:
         - label: 'Yes'
@@ -69,7 +69,7 @@ body:
   - type: checkboxes
     id: semantic-versioning
     attributes:
-      label: Project has semantic versioning:
+      label: 'Project has semantic versioning:'
       description: Is the project versioned by the Semantic Versioning convention ?
       options:
         - label: 'Yes'
@@ -77,7 +77,7 @@ body:
   - type: checkboxes
     id: dependency-management
     attributes:
-      label: Project has dependencies management:
+      label: 'Project has dependencies management:'
       description: Does the project have a dependency management tool integration e.g. Dependabot ?
       options:
         - label: 'Yes'
@@ -85,7 +85,7 @@ body:
   - type: checkboxes
     id: automated-tests
     attributes:
-      label: Project has automated tests:
+      label: 'Project has automated tests:'
       description: Does the project have unit tests ?
       options:
         - label: 'Yes'
@@ -93,7 +93,7 @@ body:
   - type: checkboxes
     id: code-quality-analysis
     attributes:
-      label: Project has code quality analysis:
+      label: 'Project has code quality analysis:'
       description: Does the project have a code quality analsis tool integration ?
       options:
         - label: 'Yes'
@@ -101,7 +101,7 @@ body:
   - type: checkboxes
     id: code-security-analysis
     attributes:
-      label: Project has code security analysis:
+      label: 'Project has code security analysis:'
       description: Does the project have a code security analsis tool integration ?
       options:
         - label: 'Yes'
@@ -109,7 +109,7 @@ body:
   - type: checkboxes
     id: secrets-management
     attributes:
-      label: Project has secrets management:
+      label: 'Project has secrets management:'
       description: Does the project use a token vault tool e.g. GitHub Secrets or another ?
       options:
         - label: 'Yes'
@@ -117,7 +117,7 @@ body:
   - type: checkboxes
     id: github-release
     attributes:
-      label: Project has GitHub releases:
+      label: 'Project has GitHub releases:'
       description: Does the project have GitHub releases ?
       options:
         - label: 'Yes'
@@ -125,7 +125,7 @@ body:
   - type: checkboxes
     id: artifacts-publishing
     attributes:
-      label: Project has artifacts publishing:
+      label: 'Project has artifacts publishing:'
       description: Does the project publish any artifacts ?
       options:
         - label: 'Yes'
@@ -133,7 +133,7 @@ body:
   - type: checkboxes
     id: automated-deployment
     attributes:
-      label: Project has automated deployment:
+      label: 'Project has automated deployment:'
       description: Does the project have automated deployment ?
       options:
         - label: 'Yes'
@@ -141,7 +141,7 @@ body:
   - type: checkboxes
     id: codespaces-configuration
     attributes:
-      label: GitHub Codespaces configuration:
+      label: 'GitHub Codespaces configuration:'
       description: Does the project have a Codespaces configuration ?
       options:
         - label: 'Yes'

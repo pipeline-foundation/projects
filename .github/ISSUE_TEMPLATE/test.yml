@@ -75,30 +75,19 @@ body:
         - label: 'Yes'
           required: false
 
-
-
-
-
-
-
-
-  - type: dropdown
-    id: version
+  - type: markdown
     attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-    validations:
-      required: true
+      value: |
+        # 4.  Requested contributions
   - type: dropdown
-    id: browsers
+    id: contributions
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: What features would you like us to contribute to your project?
       multiple: true
       options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+        - Dependency management
+        - Security and quality code analysis
+        - Continuous Integration
+        - Continuous Deployment
+    validations:
+      requuired: true

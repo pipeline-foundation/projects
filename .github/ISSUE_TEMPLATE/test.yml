@@ -11,7 +11,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        "# 1.  Project Information"
+        # 1.  Project Information
   - type: input
     id: project-name
     attributes:
@@ -21,7 +21,7 @@ body:
   - type: input
     id: github-url
     attributes:
-      label: 'GitHub URL:'
+      label: 'Project GitHub URL:'
     validations:
       required: true
   - type: textarea
@@ -37,19 +37,19 @@ body:
   - type: input
     id: cp-name
     attributes:
-      label: 'Name:'
+      label: 'Contact person name:'
     validations:
       required: true
   - type: input
     id: cp-email
     attributes:
-      label: 'Email:'
+      label: 'Contact person email:'
     validations:
       required: true
   - type: input
     id: cp-gh-profile
     attributes:
-      label: 'GitHub Profile URL:'
+      label: 'Contact person GitHub profile URL:'
     validations:
       required: true
   - type: markdown

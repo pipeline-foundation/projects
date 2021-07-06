@@ -74,7 +74,86 @@ body:
       options:
         - label: 'Yes'
           required: false
-
+  - type: checkboxes
+    id: dependency-management
+    attributes:
+      label: Project has dependencies management
+      description: Does the project have a dependency management tool integration e.g. Dependabot ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: automated-tests
+    attributes:
+      label: Project has automated tests
+      description: Does the project have unit tests ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: automated-tests
+    attributes:
+      label: Project has code quality analysis
+      description: Does the project have a code quality analsis tool integration ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: code-quality-analysis
+    attributes:
+      label: Project has code quality analysis
+      description: Does the project have a code quality analsis tool integration ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: code-security-analysis
+    attributes:
+      label: Project has code security analysis
+      description: Does the project have a code security analsis tool integration ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: secrets-management
+    attributes:
+      label: Project has secrets management
+      description: Does the project use a token vault tool e.g. GitHub Secrets or another ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: github-release
+    attributes:
+      label: Project has GitHub releases
+      description: Does the project have GitHub releases ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: artifacts-publishing
+    attributes:
+      label: Project has artifacts publishing
+      description: Does the project publish any artifacts ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: automated-deployment
+    attributes:
+      label: Project has automated deployment
+      description: Does the project have automated deployment ?
+      options:
+        - label: 'Yes'
+          required: false
+  - type: checkboxes
+    id: codespaces-configuration
+    attributes:
+      label: GitHub Codespaces configuration
+      description: Does the project have a Codespaces configuration ?
+      options:
+        - label: 'Yes'
+          required: false
   - type: markdown
     attributes:
       value: |

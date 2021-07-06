@@ -64,7 +64,7 @@ body:
       label: Project has build instructions
       description: Does the project have `Contributors guide` or build pipeline/script
       options:
-        - label: Yes
+        - label: 'Yes'
           required: false
 
 

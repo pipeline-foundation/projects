@@ -1,4 +1,4 @@
-name: [Test] Onboarding application
+name: [Test] Onboarding application # make this a string to fix the problem and show the template in 'New issue'
 description: Information necessary to determine eligibility and required contributions
 title: "owner/repo"
 labels: [ 'project application' ]

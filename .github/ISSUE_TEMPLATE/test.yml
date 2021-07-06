@@ -78,7 +78,7 @@ body:
     id: dependency-management
     attributes:
       label: 'Project has dependencies management:'
-      description: Does the project have a dependency management tool integration e.g. Dependabot ?
+      description: Does the project have a dependency management tool integration e.g. Dependabot or another ?
       options:
         - label: 'Yes'
           required: false
@@ -94,7 +94,7 @@ body:
     id: code-quality-analysis
     attributes:
       label: 'Project has code quality analysis:'
-      description: Does the project have a code quality analsis tool integration ?
+      description: Does the project have a code quality analsis tool integration e.g. CodeQL, SonarQube etc. ?
       options:
         - label: 'Yes'
           required: false
@@ -102,7 +102,7 @@ body:
     id: code-security-analysis
     attributes:
       label: 'Project has code security analysis:'
-      description: Does the project have a code security analsis tool integration ?
+      description: Does the project have a code security analsis tool integration e.g. CodeQL or another ?
       options:
         - label: 'Yes'
           required: false
@@ -126,7 +126,7 @@ body:
     id: artifacts-publishing
     attributes:
       label: 'Project has artifacts publishing:'
-      description: Does the project publish any artifacts ?
+      description: Does the project publish any artifacts e.g. to a pipeline run, release or 3rd party ?
       options:
         - label: 'Yes'
           required: false
@@ -134,7 +134,7 @@ body:
     id: automated-deployment
     attributes:
       label: 'Project has automated deployment:'
-      description: Does the project have automated deployment ?
+      description: Does the project have automated deployment e.g. NuGet, Azure Web App ?
       options:
         - label: 'Yes'
           required: false

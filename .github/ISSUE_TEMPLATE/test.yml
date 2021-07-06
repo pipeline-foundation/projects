@@ -1,4 +1,4 @@
-name: Onboarding application 2
+name: [Test] Onboarding application
 description: Information necessary to determine eligibility and required contributions
 title: "owner/repo"
 labels: [ 'project application' ]
@@ -52,6 +52,12 @@ body:
       label: 'GitHub Profile URL:'
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        # 3.  Eligibility criteria
+        
+        Please complete the following for your project:
 
 
 

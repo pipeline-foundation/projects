@@ -62,11 +62,18 @@ body:
     id: build-instructions
     attributes:
       label: Project has build instructions
-      description: Does the project have `Contributors guide` or build pipeline/script
+      description: Does the project have `Contributors guide` or build pipeline/script ?
       options:
         - label: 'Yes'
           required: false
-
+  - type: checkboxes
+    id: semantic-versioning
+    attributes:
+      label: Project has semantic versioning
+      description: Is the project versioned by the Semantic Versioning convention ?
+      options:
+        - label: 'Yes'
+          required: false
 
 
 

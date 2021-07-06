@@ -58,6 +58,19 @@ body:
         # 3.  Eligibility criteria
         
         Please complete the following for your project:
+  - type: checkboxes
+    id: build-instructions
+    attributes:
+      label: Project has build instructions
+      description: Does the project have `Contributors guide` or build pipeline/script
+      options:
+        - label: Yes
+          required: false
+
+
+
+
+
 
 
 

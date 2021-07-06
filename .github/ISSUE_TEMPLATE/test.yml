@@ -141,7 +141,7 @@ body:
   - type: checkboxes
     id: codespaces-configuration
     attributes:
-      label: 'GitHub Codespaces configuration:'
+      label: 'Project has a GitHub Codespaces configuration:'
       description: Does the project have a Codespaces configuration ?
       options:
         - label: 'Yes'

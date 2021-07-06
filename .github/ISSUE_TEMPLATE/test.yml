@@ -91,14 +91,6 @@ body:
         - label: 'Yes'
           required: false
   - type: checkboxes
-    id: automated-tests
-    attributes:
-      label: Project has code quality analysis
-      description: Does the project have a code quality analsis tool integration ?
-      options:
-        - label: 'Yes'
-          required: false
-  - type: checkboxes
     id: code-quality-analysis
     attributes:
       label: Project has code quality analysis

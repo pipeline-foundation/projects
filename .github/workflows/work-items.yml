@@ -15,7 +15,7 @@ jobs:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           ado_organization: "singlet-dev"
           ado_project: "Pipeline Foundation"
-          ado_area_path: "Pipeline Foundation\General"
+          ado_area_path: "Pipeline Foundation\\General"
           ado_iteration_path: "Pipeline Foundation"
           ado_wit: "${{ github.event.issue.title }} - contribution"
           ado_new_state: "New"

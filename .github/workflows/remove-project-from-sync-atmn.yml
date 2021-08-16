@@ -1,0 +1,35 @@
+name: Remove project from sync automation
+
+on: 
+  issues:
+    types: [ closed ]
+
+jobs:
+  remove-project:
+    name: Remove project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove project from sync automation
+        shell: pwsh
+        run: |
+          $pfBarebonesRepo = "https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/pipeline-foundation/PF-Barebones.git"
+          $pfBarebonesFolder = "pfb-repo"
+
+          git clone $pfBarebonesRepo $pfBarebonesFolder
+          Push-Location $pfBarebonesFolder
+
+          $issueName = "${{ github.event.issue.title }}"
+          $projectName = $issueName.Split('/')[1]
+          $file = ".github/workflows/sync-forks.yml"
+          $fileContent = Get-Content -Path $file
+          $lineNumber = 15
+          $line = $fileContent.Split('\n')[$lineNumber-1]
+          $arrayOnLine = ($line -replace 'project: ', '').Trim()
+          $newLine = if ( $arrayOnLine.Split($projectName)[0] -eq '[ ' ) { $line -replace "$projectName, ", '' } else { $line -replace ", $projectName", '' }
+          $newFileContent = $fileContent -Replace [regex]::escape($line), $newLine
+
+          Set-Content -Path $file -Value $newFileContent
+
+          git add $file
+          git commit -m "remove $projectName to sync automation"
+          git push origin main

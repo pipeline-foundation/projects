@@ -25,7 +25,31 @@ jobs:
           ado_close_state: "Closed"
           ado_bypassrules: true
           log_level: 100
-    
+
+      - name: Add project to sync automation
+        shell: pwsh
+        run: |
+          $pfBarebonesRepo = "https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/pipeline-foundation/PF-Barebones.git"
+          $pfBarebonesFolder = "pfb-repo"
+
+          git clone $pfBarebonesRepo $pfBarebonesFolder
+          Push-Location $pfBarebonesFolder
+
+          $issueName = "${{ github.event.issue.title }}"
+          $projectName = $issueName.Split('/')[1]
+          $file = ".github/workflows/sync-forks.yml"
+          $fileContent = Get-Content -Path $file
+          $lineNumber = 15
+          $line = $fileContent.Split('\n')[$lineNumber-1]
+          $newLine = $line.Substring(0,$line.Length-2) + ", $projectName ]"
+          $newFileContent = $fileContent -Replace [regex]::escape($line), $newLine
+
+          Set-Content -Path $file -Value $newFileContent
+
+          git add $file
+          git commit -m "add $projectName to sync automation"
+          git push origin main
+
       - name: Execute fork creation
         id: execute_fork_creation
         shell: pwsh

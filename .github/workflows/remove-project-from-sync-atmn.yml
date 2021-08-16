@@ -14,6 +14,8 @@ jobs:
         run: |
           $pfBarebonesRepo = "https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/pipeline-foundation/PF-Barebones.git"
           $pfBarebonesFolder = "pfb-repo"
+          $gitUserEmail = "aleksandar.ivanov@singlet.dev"
+          $gitUserName = "aleks-ivanov"          
 
           git clone $pfBarebonesRepo $pfBarebonesFolder
           Push-Location $pfBarebonesFolder
@@ -30,6 +32,8 @@ jobs:
 
           Set-Content -Path $file -Value $newFileContent
 
+          git config --global user.email $gitUserEmail
+          git config --global user.name $gitUserName
           git add $file
           git commit -m "remove $projectName to sync automation"
           git push origin main

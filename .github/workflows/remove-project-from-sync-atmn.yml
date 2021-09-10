@@ -35,5 +35,5 @@ jobs:
           git config --global user.email $gitUserEmail
           git config --global user.name $gitUserName
           git add $file
-          git commit -m "remove $projectName to sync automation"
+          git commit -m "remove $projectName from sync automation"
           git push origin main

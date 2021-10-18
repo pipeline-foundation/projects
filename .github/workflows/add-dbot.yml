@@ -43,10 +43,9 @@ jobs:
             $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
 
             git clone $memberFork
-            & {
-              Push-Location $projectName
-              Get-ChildItem
-            }
+            Push-Location $projectName
+            Get-ChildItem
+            Pop-Location $projectName
             Remove-Item -Recurse -Force $projectName
           }
 

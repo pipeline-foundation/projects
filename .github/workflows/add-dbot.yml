@@ -47,7 +47,7 @@ jobs:
               Push-Location $projectName
               Get-ChildItem
             }
-            Remove-Item -Recurse -Force some_dir $projectName
+            Remove-Item -Recurse -Force $projectName
           }
 
           # function Get-DependenciesSourceParentFolder {

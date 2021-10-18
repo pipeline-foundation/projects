@@ -1,0 +1,10 @@
+name: Create new project from issue
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  add-dbot:
+    uses: pipeline-foundation/projects/.github/workflows/add-dbot.yml
+    with:
+      repo: asddfgqw

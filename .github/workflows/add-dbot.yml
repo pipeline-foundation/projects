@@ -19,9 +19,15 @@ on:
 
 jobs:
   add-dbot:
-    name: Add Dependabot to ${{ inputs.repo }}
+    name: Add Dependabot
     runs-on: ubuntu-20.04
     steps:
-      - name: Test
+      - if: github.event_name == 'workflow_call'
+        name: Test workflow_call
         run: |
           echo "${{ inputs.repo }}"
+
+      - if: github.event_name == 'workflow_dispatch'
+        name: Test workflow_dispatch
+        run: |
+          echo "${{ github.event.inputs.repo }}"

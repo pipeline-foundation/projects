@@ -45,7 +45,7 @@ jobs:
             git clone $memberFork
             Push-Location $projectName
             Get-ChildItem
-            Pop-Location $projectName
+            Set-Location -
             Remove-Item -Recurse -Force $projectName
           }
 

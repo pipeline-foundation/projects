@@ -20,6 +20,12 @@ on:
 jobs:
   add-dbot:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        members: [
+          { name: "aleks-ivanov", token: "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" },
+          { name: "szlatkow", token: "${{ secrets.SZLATKOW_GITHUB_TOKEN }}" }
+        ]
     steps:
       - if: github.event_name == 'issues'
         name: From issue creation
@@ -32,22 +38,16 @@ jobs:
         shell: pwsh
         run: |
           $projectName = "${{ github.event.inputs.repo }}"
-          $membersArr = @(
-            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" },
-            [pscustomobject]@{ name = "szlatkow"; token = "${{ secrets.SZLATKOW_GITHUB_TOKEN }}" }
-          )
 
-          foreach ( $member in $membersArr ) {
-            $memberName = $member.name
-            $memberToken = $member.token
-            $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
+          $memberName = ${{ matrix.members.name }}
+          $memberToken = ${{ matrix.members.token }}
+          $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
 
-            git clone $memberFork
-            Push-Location $projectName
-            Get-ChildItem
-            Set-Location -
-            Remove-Item -Recurse -Force $projectName
-          }
+          git clone $memberFork
+          Push-Location $projectName
+          Get-ChildItem
+          Set-Location -
+          Remove-Item -Recurse -Force $projectName
 
           # function Get-DependenciesSourceParentFolder {
           #   Param($SearchIncludes)

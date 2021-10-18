@@ -19,9 +19,9 @@ on:
 
 jobs:
   add-dbot:
-    name: Add Dependabot to ${{ github.event.inputs.repo }}
+    name: Add Dependabot to ${{ inputs.repo }}
     runs-on: ubuntu-20.04
     steps:
       - name: Test
         run: |
-          echo "${{ github.event.inputs.repo }}"
+          echo "${{ inputs.repo }}"

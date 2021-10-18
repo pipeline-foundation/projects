@@ -3,7 +3,7 @@ name: Test workflow_call
 on:
   push:
     paths:
-      - '.github/workflows/workflowcall-test.yml'
+      - '.github/workflows/workflowcall-test.yml' 
   workflow_dispatch:
 
 jobs:

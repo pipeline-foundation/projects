@@ -1,19 +1,20 @@
 name: Add Dependabot to forks
 
 on: 
-  workflows_call:
-  inputs:
-    repo:
-      description: 'Name of the target repository'
-      default: 'default'
-      required: true
-      type: string
+  workflow_call:
+    inputs:
+      repo:
+        description: 'Name of the target repository'
+        default: 'default'
+        required: true
+        type: string
   workflow_dispatch:
-    repo:
-      description: 'Name of the target repository'
-      default: 'default'
-      required: true
-      type: string
+    inputs:
+      repo:
+        description: 'Name of the target repository'
+        default: 'default'
+        required: true
+        type: string
 
 
 jobs:

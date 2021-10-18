@@ -5,10 +5,28 @@ on:
     types: [ opened ]
 
 jobs:
-  create-forks:
-    name: Create forks
-    runs-on: ubuntu-latest
+  data:
+    name: Data gathering
+    runs-on: ubuntu-20.04
     environment: application_submission
+    outputs:
+      proj_original_repo: ${{ steps.project_info.outputs.proj_original_repo }}
+      proj_name: ${{ steps.project_info.outputs.proj_name }}
+    steps:
+      - name: Project information
+        id: project_info
+        shell: pwsh
+        run: |
+          $projOriginalRepo = "${{ github.event.issue.title }}"
+          $projName = $projOriginalRepo.Split('/')[1]
+
+          echo "::set-output name=proj_original_repo::$(echo $projectOriginalRepo)"
+          echo "::set-output name=proj_name::$(echo $projectName)"
+
+  create-forks:
+    needs: data
+    name: Create forks
+    runs-on: ubuntu-20.04
     steps:
       - name: Create AzDO board item
         uses: danhellem/github-actions-issue-to-work-item@master
@@ -37,8 +55,8 @@ jobs:
           git clone $pfBarebonesRepo $pfBarebonesFolder
           Push-Location $pfBarebonesFolder
 
-          $issueName = "${{ github.event.issue.title }}"
-          $projectName = $issueName.Split('/')[1]
+          $issueName = "${{ needs.data.outputs.proj_original_repo }}"
+          $projectName = "${{ needs.data.outputs.proj_name }}"
           $file = ".github/workflows/sync-forks.yml"
           $fileContent = Get-Content -Path $file
           $lineNumber = 15
@@ -58,8 +76,8 @@ jobs:
         id: execute_fork_creation
         shell: pwsh
         run: |
-          $projectRepo = "${{ github.event.issue.title }}"
-          $projectName = $projectRepo.Substring(($projectRepo.IndexOf('/') + 1))
+          $projectRepo = "${{ needs.data.outputs.proj_original_repo }}"
+          $projectName = "${{ needs.data.outputs.proj_name }}"
           $pfRepo = "pipeline-foundation/$projectName"
 
           Write-Output "`n`nCommencing Pipeline Foundation fork creation...`n`n"
@@ -139,3 +157,10 @@ jobs:
           }
 
           Write-Output "`n`nMembers fork created!`n`n"
+
+  add-dbot:
+    needs: data, create-forks
+    name: Add Dependabot
+    uses: pipeline-foundation/projects/.github/workflows/add-dbot.yml@master
+    with:
+      repo: ${{ needs.data.outputs.proj_name }}

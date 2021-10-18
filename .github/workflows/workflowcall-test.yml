@@ -1,4 +1,4 @@
-name: Create new project from issue
+name: Test workflow_call
 
 on: 
   workflow_dispatch:

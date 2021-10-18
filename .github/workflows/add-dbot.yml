@@ -39,8 +39,8 @@ jobs:
         run: |
           $projectName = "${{ github.event.inputs.repo }}"
 
-          $memberName = ${{ matrix.members.name }}
-          $memberToken = ${{ secrets[matrix.members.token] }}
+          $memberName = "${{ matrix.members.name }}"
+          $memberToken = "${{ secrets[matrix.members.token] }}"
           $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
 
           git clone $memberFork

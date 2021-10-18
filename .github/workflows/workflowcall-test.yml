@@ -1,6 +1,9 @@
 name: Test workflow_call
 
-on: 
+on:
+  push:
+    paths:
+      - '.github/workflows/workflowcall_test.yml'
   workflow_dispatch:
 
 jobs:

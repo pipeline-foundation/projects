@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           $githubEventName = "${{ github.event_name }}"
-          $projectName = ( $githubEventName == 'workflow_dispatch' ) ? "${{ github.event.inputs.repo }}" : "${{ inputs.repo }}"
+          $projectName = ( $githubEventName -eq 'workflow_dispatch' ) ? "${{ github.event.inputs.repo }}" : "${{ inputs.repo }}"
           $memberName = "${{ matrix.members.name }}"
           $memberToken = "${{ secrets[matrix.members.token] }}"
           $memberEmail = "${{ matrix.members.email }}"

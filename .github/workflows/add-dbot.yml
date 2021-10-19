@@ -29,7 +29,8 @@ jobs:
       - name: Create and push Dependabot config
         shell: pwsh
         run: |
-          $projectName = ( "${{ github.event_name }}" == 'workflow_dispatch' ) ? "${{ github.event.inputs.repo }}" : "${{ inputs.repo }}"
+          $githubEventName = "${{ github.event_name }}"
+          $projectName = ( $githubEventName == 'workflow_dispatch' ) ? "${{ github.event.inputs.repo }}" : "${{ inputs.repo }}"
           $memberName = "${{ matrix.members.name }}"
           $memberToken = "${{ secrets[matrix.members.token] }}"
           $memberEmail = "${{ matrix.members.email }}"

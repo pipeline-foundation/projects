@@ -43,3 +43,5 @@ jobs:
     uses: pipeline-foundation/projects/.github/workflows/add-dbot.yml@master
     with:
       repo: ${{ needs.data.outputs.proj_name }}
+      aivanov_token: ${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}
+      szlatkow_token: ${{ secrets.SZLATKOW_GITHUB_TOKEN }}

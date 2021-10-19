@@ -8,6 +8,12 @@ on:
         default: 'default'
         required: true
         type: string
+    secrets:
+      aivanov_token:
+        required: true
+      szlatkow_token:
+        required: true
+
   workflow_dispatch:
     inputs:
       repo:
@@ -22,8 +28,8 @@ jobs:
     strategy:
       matrix:
         members: [
-          { name: "aleks-ivanov", token: ALEKS_IVANOV_GITHUB_TOKEN, email: "aleksandar.ivanov@singlet.dev" },
-          { name: "szlatkow", token: SZLATKOW_GITHUB_TOKEN, email: "zlatkov@singlet.dev" }
+          { name: "aleks-ivanov", email: "aleksandar.ivanov@singlet.dev", token: ALEKS_IVANOV_GITHUB_TOKEN, wc_token: aivanov_token },
+          { name: "szlatkow", email: "zlatkov@singlet.dev", token: SZLATKOW_GITHUB_TOKEN, wc_token: szlatkow_token }
         ]
     steps:
       - name: Create and push Dependabot config
@@ -32,8 +38,8 @@ jobs:
           $githubEventName = "${{ github.event_name }}"
           $projectName = ( $githubEventName -eq 'workflow_dispatch' ) ? "${{ github.event.inputs.repo }}" : "${{ inputs.repo }}"
           $memberName = "${{ matrix.members.name }}"
-          $memberToken = "${{ secrets[matrix.members.token] }}"
           $memberEmail = "${{ matrix.members.email }}"
+          $memberToken = ( $githubEventName -eq 'workflow_dispatch' ) ? "${{ secrets[matrix.members.token] }}" : "${{ secrets[matrix.members.wc_token] }}"
           $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
           $dependabotBranch = "feature/dependabot"
 

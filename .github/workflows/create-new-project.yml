@@ -32,6 +32,7 @@ jobs:
       proj_name: ${{ needs.data.outputs.proj_name }}
     secrets:
       azdo_token: ${{ secrets.ISSUE_TO_AZDO_WORKITEM }}
+      pf_token: ${{ secrets.PF_ACCESS_TOKEN }}
 
   add-dbot:
     needs: [ data, create-forks ]

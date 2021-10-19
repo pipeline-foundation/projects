@@ -16,6 +16,8 @@ on:
     secrets:
       azdo_token:
         required: true
+      pf_token:
+        required: true
 
 jobs:
   create-forks:
@@ -40,7 +42,7 @@ jobs:
       - name: Add project to sync automation
         shell: pwsh
         run: |
-          $pfBarebonesRepo = "https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/pipeline-foundation/PF-Barebones.git"
+          $pfBarebonesRepo = "https://token:${{ secrets.pf_token }}@github.com/pipeline-foundation/PF-Barebones.git"
           $pfBarebonesFolder = "pfb-repo"
           $gitUserEmail = "aleksandar.ivanov@singlet.dev"
           $gitUserName = "aleks-ivanov"

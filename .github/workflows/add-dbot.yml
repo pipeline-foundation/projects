@@ -38,16 +38,12 @@ jobs:
         shell: pwsh
         run: |
           $projectName = "${{ github.event.inputs.repo }}"
-
           $memberName = "${{ matrix.members.name }}"
           $memberToken = "${{ secrets[matrix.members.token] }}"
           $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
 
-          git clone $memberFork
-          Push-Location $projectName
-          Get-ChildItem
-          Set-Location -
-          Remove-Item -Recurse -Force $projectName
+          git clone $memberFork .
+          gci
 
           # function Get-DependenciesSourceParentFolder {
           #   Param($SearchIncludes)
@@ -100,13 +96,8 @@ jobs:
           #   [pscustomobject]@{ name = 'terraform'; files = '.tf' } # add Terraform dependencies sources
           # )
 
-          # $projectName = $projectFolder -replace '^\d+.\s', ''
-          # $projectRepoFolder = "repo-$projectName@$GitHubUsername"
-
-          # # Enter the project's parent folder
-          # Push-Location $projectFolder
           # # Enter the project's repo folder
-          # Push-Location $projectRepoFolder
+          # Push-Location $projectName
 
           # if ( !( Test-Path -Path .github ) ) {
           #   New-Item -Name .github -ItemType Directory
@@ -150,7 +141,3 @@ jobs:
           # # Add Pipeline Foundation credentials
           # Write-Output '' | Add-Content $dBotConfigPath
           # Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath
-
-          # # Return to initial location
-          # Pop-Location
-          # Pop-Location

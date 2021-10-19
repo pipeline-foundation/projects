@@ -26,6 +26,7 @@ jobs:
   add-dbot:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         members: [
           { name: "aleks-ivanov", email: "aleksandar.ivanov@singlet.dev", token: ALEKS_IVANOV_GITHUB_TOKEN, wc_token: aivanov_token },

@@ -32,7 +32,7 @@ jobs:
       proj_name: ${{ needs.data.outputs.proj_name }}
 
   add-dbot:
-    needs: data, create-forks
+    needs: [ data, create-forks ]
     name: Add Dependabot
     uses: pipeline-foundation/projects/.github/workflows/add-dbot.yml@master
     with:

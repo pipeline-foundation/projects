@@ -42,7 +42,9 @@ jobs:
           $memberToken = "${{ secrets[matrix.members.token] }}"
           $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
 
-          git clone $memberFork .
+          git clone $memberFork
+          gci
+          cd $projectName
           gci
 
           # function Get-DependenciesSourceParentFolder {

@@ -141,3 +141,9 @@ jobs:
           # Add Pipeline Foundation credentials
           Write-Output '' | Add-Content $dBotConfigPath
           Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath
+
+      - name: Upload packages as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dbot
+          path: .github/dependabot.yml

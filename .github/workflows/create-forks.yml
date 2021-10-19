@@ -21,7 +21,7 @@ jobs:
       - name: Create AzDO board item
         uses: danhellem/github-actions-issue-to-work-item@master
         env:
-          ado_token: "${{ secrets.ISSUE_TO_AZDO_WORKITEM }}"
+          ado_token: "${{ secrets.azdo_token }}"
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           ado_organization: "singlet-dev"
           ado_project: "Pipeline Foundation"

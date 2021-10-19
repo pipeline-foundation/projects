@@ -30,6 +30,8 @@ jobs:
     with:
       proj_original_repo: ${{ needs.data.outputs.proj_original_repo }}
       proj_name: ${{ needs.data.outputs.proj_name }}
+    secrets:
+      azdo_token: ${{ secrets.ISSUE_TO_AZDO_WORKITEM }}
 
   add-dbot:
     needs: [ data, create-forks ]

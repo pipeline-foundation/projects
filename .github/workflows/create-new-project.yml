@@ -33,6 +33,9 @@ jobs:
     secrets:
       azdo_token: ${{ secrets.ISSUE_TO_AZDO_WORKITEM }}
       pf_token: ${{ secrets.PF_ACCESS_TOKEN }}
+      pf_token_64: ${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}
+      aivanov_token: ${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}
+      szlatkow_token: ${{ secrets.SZLATKOW_GITHUB_TOKEN }}
 
   add-dbot:
     needs: [ data, create-forks ]

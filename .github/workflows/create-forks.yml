@@ -78,7 +78,7 @@ jobs:
 
           Start-Job -Name Create_PF_Fork -ScriptBlock {
             $newProject = "https://api.github.com/repos/$Using:projectRepo/forks"
-            $basicBase64Token = "${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}"
+            $basicBase64Token = "${{ secrets.pf_token_64 }}"
             $headers = @{
               'Accept'        = 'application/vnd.github.v3+json';
               'Authorization' = "Basic {0}" -f $basicBase64Token;
@@ -106,7 +106,7 @@ jobs:
             $pfUri = "https://api.github.com/repos/$Using:pfRepo"
             $defaultBranch = Invoke-RestMethod -Method GET -Uri $pfUri | Select-Object -ExpandProperty default_branch
 
-            git clone https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/$Using:pfRepo.git
+            git clone https://token:${{ secrets.pf_token }}@github.com/$Using:pfRepo.git
             Push-Location $Using:projectName
             git checkout $defaultBranch
             foreach ($branch in $branchesArr) {
@@ -124,8 +124,8 @@ jobs:
           Write-Output "`n`nCommencing members fork creation...`n`n"
 
           $membersArr = @(
-            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" },
-            [pscustomobject]@{ name = "szlatkow"; token = "${{ secrets.SZLATKOW_GITHUB_TOKEN }}" }
+            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.aivanov_token }}" },
+            [pscustomobject]@{ name = "szlatkow"; token = "${{ secrets.szlatkow_token }}" }
           )
           $pfProjectFork = "https://api.github.com/repos/$pfRepo/forks"
 

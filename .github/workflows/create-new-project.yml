@@ -20,8 +20,8 @@ jobs:
           $projOriginalRepo = "${{ github.event.issue.title }}"
           $projName = $projOriginalRepo.Split('/')[1]
 
-          echo "::set-output name=proj_original_repo::$(echo $projectOriginalRepo)"
-          echo "::set-output name=proj_name::$(echo $projectName)"
+          echo "::set-output name=proj_original_repo::$(echo $projOriginalRepo)"
+          echo "::set-output name=proj_name::$(echo $projName)"
 
   create-forks:
     needs: data

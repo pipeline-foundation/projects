@@ -146,4 +146,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dbot
-          path: .github/dependabot.yml
+          path: ClearScript/.github/dependabot.yml

@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - run: |
-        echo ${{ inputs.proj_original_repo }}
-        echo ""
-        echo ${{ inputs.proj_name }}
+          echo ${{ inputs.proj_original_repo }}
+          echo ""
+          echo ${{ inputs.proj_name }}
       # - name: Create AzDO board item
       #   uses: danhellem/github-actions-issue-to-work-item@master
       #   env:

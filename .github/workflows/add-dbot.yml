@@ -43,103 +43,101 @@ jobs:
           $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
 
           git clone $memberFork
-          gci
-          cd $projectName
-          gci
+          Get-ChildItem
 
-          # function Get-DependenciesSourceParentFolder {
-          #   Param($SearchIncludes)
+          function Get-DependenciesSourceParentFolder {
+            Param($SearchIncludes)
 
-          #   Get-ChildItem -Recurse -File | Where-Object { $_.Extension -in $SearchIncludes -or $_.Name -in $SearchIncludes } | ForEach-Object {
-          #     $PSItemPSChildName = $PSItem.PSChildName
-          #     $PSItem.FullName -match "$projectRepoFolder(.*)" | Out-Null
-          #     $Matches[0] -replace "$projectRepoFolder\\", '' -replace "$PSItemPSChildName", '' -replace '\\$', '' -replace '\\', '/'
-          #   } | Select-Object -Unique
-          # }
+            Get-ChildItem -Recurse -File | Where-Object { $_.Extension -in $SearchIncludes -or $_.Name -in $SearchIncludes } | ForEach-Object {
+              $PSItemPSChildName = $PSItem.PSChildName
+              $PSItem.FullName -match "$projectName(.*)" | Out-Null
+              $Matches[0] -replace "$projectName/", '' -replace "$PSItemPSChildName", '' -replace '/$', '' -replace '\\', '/'
+            } | Select-Object -Unique
+          }
 
-          # function Add-ContentToDependabotConfig {
-          #   Param($LocationsArray, $EcosystemName)
+          function Add-ContentToDependabotConfig {
+            Param($LocationsArray, $EcosystemName)
 
-          #   foreach ( $fileLocation in $LocationsArray ) {
-          #     if ( $EcosystemName -eq 'nuget' -and $fileLocation -eq '' ) {
-          #       continue
-          #     }
-          #     if ( ( Get-Content $dBotConfigPath -Tail 1 ) -ne "updates:" ) {
-          #       Write-Output '' | Add-Content $dBotConfigPath
-          #     }
-          #     Write-Output "  - package-ecosystem: '$EcosystemName'" | Add-Content $dBotConfigPath
-          #     Write-Output "    directory: '$fileLocation'" | Add-Content $dBotConfigPath
-          #     Write-Output '    open-pull-requests-limit: 10' | Add-Content $dBotConfigPath
-          #     Write-Output '    schedule:' | Add-Content $dBotConfigPath
-          #     Write-Output "      interval: 'daily'" | Add-Content $dBotConfigPath
-          #     Write-Output "    # target-branch: 'develop'" | Add-Content $dBotConfigPath
-          #     Write-Output '    # assignees:' | Add-Content $dBotConfigPath
-          #     Write-Output '    #   - assignee_one' | Add-Content $dBotConfigPath
-          #     Write-Output '    # reviewers:' | Add-Content $dBotConfigPath
-          #     Write-Output '    #   - reviewer_one' | Add-Content $dBotConfigPath
-          #   }
-          # }
+            foreach ( $fileLocation in $LocationsArray ) {
+              if ( $EcosystemName -eq 'nuget' -and $fileLocation -eq '' ) {
+                continue
+              }
+              if ( ( Get-Content $dBotConfigPath -Tail 1 ) -ne "updates:" ) {
+                Write-Output '' | Add-Content $dBotConfigPath
+              }
+              Write-Output "  - package-ecosystem: '$EcosystemName'" | Add-Content $dBotConfigPath
+              Write-Output "    directory: '$fileLocation'" | Add-Content $dBotConfigPath
+              Write-Output '    open-pull-requests-limit: 10' | Add-Content $dBotConfigPath
+              Write-Output '    schedule:' | Add-Content $dBotConfigPath
+              Write-Output "      interval: 'daily'" | Add-Content $dBotConfigPath
+              Write-Output "    # target-branch: 'develop'" | Add-Content $dBotConfigPath
+              Write-Output '    # assignees:' | Add-Content $dBotConfigPath
+              Write-Output '    #   - assignee_one' | Add-Content $dBotConfigPath
+              Write-Output '    # reviewers:' | Add-Content $dBotConfigPath
+              Write-Output '    #   - reviewer_one' | Add-Content $dBotConfigPath
+            }
+          }
 
-          # # This is a collection of Dependabot supported ecosystems and their respective dependency sources as of 02/06/2021
-          # $dependabotEcosystemsCollection = @(
-          #   [pscustomobject]@{ name = 'bundler'; files = 'Gemfile' } # add Ruby dependencies sources
-          #   [pscustomobject]@{ name = 'cargo'; files = 'Cargo.toml' } # add Rust dependencies sources
-          #   [pscustomobject]@{ name = 'composer'; files = 'composer.json' } # add PHP dependencies sources
-          #   [pscustomobject]@{ name = 'docker'; files = 'Dockerfile' } # add Docker dependencies sources
-          #   [pscustomobject]@{ name = 'mix'; files = 'mix.exs' } # add Elixir dependencies sources
-          #   [pscustomobject]@{ name = 'elm'; files = 'elm.json' } # add Elm dependencies sources
-          #   [pscustomobject]@{ name = 'gitsubmodule'; files = '.gitmodules' } # add Git submodules
-          #   [pscustomobject]@{ name = 'gomod'; files = 'go.mod' } # add Go dependencies sources
-          #   [pscustomobject]@{ name = 'gradle'; files = 'build.gradle', 'build.gradle.kts' } # add Gradle dependencies sources
-          #   [pscustomobject]@{ name = 'maven'; files = 'pom.xml' } # add Maven dependencies sources
-          #   [pscustomobject]@{ name = 'npm'; files = 'package.json' } # add Javascript dependencies sources
-          #   [pscustomobject]@{ name = 'nuget'; files = '.csproj', '.vbproj', '.fsproj', 'packages.props', 'global.json', 'nuget.config', 'packages.config' } # add .NET dependencies sources
-          #   [pscustomobject]@{ name = 'pip'; files = 'requirements.txt' } # add Python dependencies sources
-          #   [pscustomobject]@{ name = 'terraform'; files = '.tf' } # add Terraform dependencies sources
-          # )
+          # This is a collection of Dependabot supported ecosystems and their respective dependency sources as of 02/06/2021
+          $dependabotEcosystemsCollection = @(
+            [pscustomobject]@{ name = 'bundler'; files = 'Gemfile' } # add Ruby dependencies sources
+            [pscustomobject]@{ name = 'cargo'; files = 'Cargo.toml' } # add Rust dependencies sources
+            [pscustomobject]@{ name = 'composer'; files = 'composer.json' } # add PHP dependencies sources
+            [pscustomobject]@{ name = 'docker'; files = 'Dockerfile' } # add Docker dependencies sources
+            [pscustomobject]@{ name = 'mix'; files = 'mix.exs' } # add Elixir dependencies sources
+            [pscustomobject]@{ name = 'elm'; files = 'elm.json' } # add Elm dependencies sources
+            [pscustomobject]@{ name = 'gitsubmodule'; files = '.gitmodules' } # add Git submodules
+            [pscustomobject]@{ name = 'gomod'; files = 'go.mod' } # add Go dependencies sources
+            [pscustomobject]@{ name = 'gradle'; files = 'build.gradle', 'build.gradle.kts' } # add Gradle dependencies sources
+            [pscustomobject]@{ name = 'maven'; files = 'pom.xml' } # add Maven dependencies sources
+            [pscustomobject]@{ name = 'npm'; files = 'package.json' } # add Javascript dependencies sources
+            [pscustomobject]@{ name = 'nuget'; files = '.csproj', '.vbproj', '.fsproj', 'packages.props', 'global.json', 'nuget.config', 'packages.config' } # add .NET dependencies sources
+            [pscustomobject]@{ name = 'pip'; files = 'requirements.txt' } # add Python dependencies sources
+            [pscustomobject]@{ name = 'terraform'; files = '.tf' } # add Terraform dependencies sources
+          )
 
-          # # Enter the project's repo folder
-          # Push-Location $projectName
+          # Enter the project's repo folder
+          Push-Location $projectName
 
-          # if ( !( Test-Path -Path .github ) ) {
-          #   New-Item -Name .github -ItemType Directory
-          # }
+          if ( !( Test-Path -Path .github ) ) {
+            New-Item -Name .github -ItemType Directory
+          }
 
-          # $dBotConfigPath = '.github/dependabot.yml'
-          # $ghaLocation = Test-Path '.github/workflows'
+          $dBotConfigPath = '.github/dependabot.yml'
+          $ghaLocation = Test-Path '.github/workflows'
 
-          # # Checkout into the feature/dependabot branch, so that the dependabot.yml file is created there
-          # git checkout feature/dependabot
+          # Checkout into the feature/dependabot branch, so that the dependabot.yml file is created there
+          git checkout feature/dependabot
 
-          # # Create dependabot.yml and start writing into it
-          # Write-Output 'version: 2' | Add-Content $dBotConfigPath
-          # Write-Output 'updates:' | Add-Content $dBotConfigPath
+          # Create dependabot.yml and start writing into it
+          Write-Output 'version: 2' | Add-Content $dBotConfigPath
+          Write-Output 'updates:' | Add-Content $dBotConfigPath
 
-          # # add GitHub Action pipelines
-          # if ( $ghaLocation ) {
-          #   Write-Output "  - package-ecosystem: 'github-actions'" | Add-Content $dBotConfigPath
-          #   Write-Output "    # default location of '.github/workflows'" | Add-Content $dBotConfigPath
-          #   Write-Output "    directory: '/'" | Add-Content $dBotConfigPath
-          #   Write-Output '    open-pull-requests-limit: 10' | Add-Content $dBotConfigPath
-          #   Write-Output '    schedule:' | Add-Content $dBotConfigPath
-          #   Write-Output "      interval: 'weekly'" | Add-Content $dBotConfigPath
-          #   Write-Output "    # target-branch: 'develop'" | Add-Content $dBotConfigPath
-          #   Write-Output '    # assignees:' | Add-Content $dBotConfigPath
-          #   Write-Output '    #   - assignee_one' | Add-Content $dBotConfigPath
-          #   Write-Output '    # reviewers:' | Add-Content $dBotConfigPath
-          #   Write-Output '    #   - reviewer_one' | Add-Content $dBotConfigPath
-          # }
+          # add GitHub Action pipelines
+          if ( $ghaLocation ) {
+            Write-Output "  - package-ecosystem: 'github-actions'" | Add-Content $dBotConfigPath
+            Write-Output "    # default location of '.github/workflows'" | Add-Content $dBotConfigPath
+            Write-Output "    directory: '/'" | Add-Content $dBotConfigPath
+            Write-Output '    open-pull-requests-limit: 10' | Add-Content $dBotConfigPath
+            Write-Output '    schedule:' | Add-Content $dBotConfigPath
+            Write-Output "      interval: 'weekly'" | Add-Content $dBotConfigPath
+            Write-Output "    # target-branch: 'develop'" | Add-Content $dBotConfigPath
+            Write-Output '    # assignees:' | Add-Content $dBotConfigPath
+            Write-Output '    #   - assignee_one' | Add-Content $dBotConfigPath
+            Write-Output '    # reviewers:' | Add-Content $dBotConfigPath
+            Write-Output '    #   - reviewer_one' | Add-Content $dBotConfigPath
+          }
 
-          # foreach ( $ecosystem in $dependabotEcosystemsCollection ) {
-          #   $ecosystemName = $ecosystem.name
-          #   $ecosystemFiles = $ecosystem.files
+          foreach ( $ecosystem in $dependabotEcosystemsCollection ) {
+            $ecosystemName = $ecosystem.name
+            $ecosystemFiles = $ecosystem.files
 
-          #   $fileLocations = Get-DependenciesSourceParentFolder -SearchIncludes $ecosystemFiles
-          #   if ( $null -ne $fileLocations ) {
-          #     Add-ContentToDependabotConfig -LocationsArray $fileLocations -EcosystemName $ecosystemName
-          #   }
-          # }
+            $fileLocations = Get-DependenciesSourceParentFolder -SearchIncludes $ecosystemFiles
+            if ( $null -ne $fileLocations ) {
+              Add-ContentToDependabotConfig -LocationsArray $fileLocations -EcosystemName $ecosystemName
+            }
+          }
 
-          # # Add Pipeline Foundation credentials
-          # Write-Output '' | Add-Content $dBotConfigPath
-          # Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath
+          # Add Pipeline Foundation credentials
+          Write-Output '' | Add-Content $dBotConfigPath
+          Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath

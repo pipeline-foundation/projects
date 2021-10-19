@@ -16,15 +16,14 @@ on:
         required: true
         type: string
 
-
 jobs:
   add-dbot:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
         members: [
-          { name: "aleks-ivanov", token: ALEKS_IVANOV_GITHUB_TOKEN },
-          { name: "szlatkow", token: SZLATKOW_GITHUB_TOKEN }
+          { name: "aleks-ivanov", token: ALEKS_IVANOV_GITHUB_TOKEN, email: "aleksandar.ivanov@singlet.dev" },
+          { name: "szlatkow", token: SZLATKOW_GITHUB_TOKEN, email: "zlatkov@singlet.dev" }
         ]
     steps:
       - if: github.event_name == 'issues'
@@ -40,10 +39,9 @@ jobs:
           $projectName = "${{ github.event.inputs.repo }}"
           $memberName = "${{ matrix.members.name }}"
           $memberToken = "${{ secrets[matrix.members.token] }}"
+          $memberEmail = "${{ matrix.members.email }}"
           $memberFork = "https://token:$memberToken@github.com/$memberName/$projectName.git"
-
-          git clone $memberFork
-          Get-ChildItem
+          $dependabotBranch = "feature/dependabot"
 
           function Get-DependenciesSourceParentFolder {
             Param($SearchIncludes)
@@ -96,7 +94,10 @@ jobs:
             [pscustomobject]@{ name = 'terraform'; files = '.tf' } # add Terraform dependencies sources
           )
 
-          # Enter the project's repo folder
+          # Clone repository
+          git clone $memberFork
+
+          # Enter cloned repository folder
           Push-Location $projectName
 
           if ( !( Test-Path -Path .github ) ) {
@@ -107,7 +108,7 @@ jobs:
           $ghaLocation = Test-Path '.github/workflows'
 
           # Checkout into the feature/dependabot branch, so that the dependabot.yml file is created there
-          git checkout feature/dependabot
+          git checkout $dependabotBranch
 
           # Create dependabot.yml and start writing into it
           Write-Output 'version: 2' | Add-Content $dBotConfigPath
@@ -142,8 +143,8 @@ jobs:
           Write-Output '' | Add-Content $dBotConfigPath
           Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath
 
-      - name: Upload packages as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: dbot
-          path: ClearScript/.github/dependabot.yml
+          git config --global user.email $memberEmail
+          git config --global user.name $memberName
+          git add $dBotConfigPath
+          git commit -m "Create Dependabot configuration"
+          git push origin $dependabotBranch

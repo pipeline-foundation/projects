@@ -18,6 +18,12 @@ on:
         required: true
       pf_token:
         required: true
+      pf_token_64:
+        required: true
+      aivanov_token:
+        required: true
+      szlatkow_token:
+        required: true
 
 jobs:
   create-forks:

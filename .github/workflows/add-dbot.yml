@@ -13,7 +13,6 @@ on:
         required: true
       szlatkow_token:
         required: true
-
   workflow_dispatch:
     inputs:
       repo:

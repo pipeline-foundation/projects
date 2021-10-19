@@ -13,6 +13,9 @@ on:
         default: 'default'
         required: true
         type: string
+    secrets:
+      azdo_token:
+        required: true
 
 jobs:
   create-forks:

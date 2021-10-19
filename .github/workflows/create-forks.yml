@@ -18,131 +18,135 @@ jobs:
   create-forks:
     runs-on: ubuntu-20.04
     steps:
-      - name: Create AzDO board item
-        uses: danhellem/github-actions-issue-to-work-item@master
-        env:
-          ado_token: "${{ secrets.ISSUE_TO_AZDO_WORKITEM }}"
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
-          ado_organization: "singlet-dev"
-          ado_project: "Pipeline Foundation"
-          ado_area_path: "Pipeline Foundation\\General"
-          ado_iteration_path: "Pipeline Foundation"
-          ado_wit: "Product Backlog Item"
-          ado_new_state: "New"
-          ado_active_state: "Active"
-          ado_close_state: "Closed"
-          ado_bypassrules: true
-          log_level: 100
+      - run: |
+        echo ${{ inputs.proj_original_repo }}
+        echo ""
+        echo ${{ inputs.proj_name }}
+      # - name: Create AzDO board item
+      #   uses: danhellem/github-actions-issue-to-work-item@master
+      #   env:
+      #     ado_token: "${{ secrets.ISSUE_TO_AZDO_WORKITEM }}"
+      #     github_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     ado_organization: "singlet-dev"
+      #     ado_project: "Pipeline Foundation"
+      #     ado_area_path: "Pipeline Foundation\\General"
+      #     ado_iteration_path: "Pipeline Foundation"
+      #     ado_wit: "Product Backlog Item"
+      #     ado_new_state: "New"
+      #     ado_active_state: "Active"
+      #     ado_close_state: "Closed"
+      #     ado_bypassrules: true
+      #     log_level: 100
 
-      - name: Add project to sync automation
-        shell: pwsh
-        run: |
-          $pfBarebonesRepo = "https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/pipeline-foundation/PF-Barebones.git"
-          $pfBarebonesFolder = "pfb-repo"
-          $gitUserEmail = "aleksandar.ivanov@singlet.dev"
-          $gitUserName = "aleks-ivanov"
+      # - name: Add project to sync automation
+      #   shell: pwsh
+      #   run: |
+      #     $pfBarebonesRepo = "https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/pipeline-foundation/PF-Barebones.git"
+      #     $pfBarebonesFolder = "pfb-repo"
+      #     $gitUserEmail = "aleksandar.ivanov@singlet.dev"
+      #     $gitUserName = "aleks-ivanov"
 
-          git clone $pfBarebonesRepo $pfBarebonesFolder
-          Push-Location $pfBarebonesFolder
+      #     git clone $pfBarebonesRepo $pfBarebonesFolder
+      #     Push-Location $pfBarebonesFolder
 
-          $projectName = "${{ inputs.proj_name }}"
-          $file = ".github/workflows/sync-forks.yml"
-          $fileContent = Get-Content -Path $file
-          $lineNumber = 15
-          $line = $fileContent.Split('\n')[$lineNumber-1]
-          $newLine = $line.Substring(0,$line.Length-2) + ", $projectName ]"
-          $newFileContent = $fileContent -Replace [regex]::escape($line), $newLine
+      #     $projectName = "${{ inputs.proj_name }}"
+      #     $file = ".github/workflows/sync-forks.yml"
+      #     $fileContent = Get-Content -Path $file
+      #     $lineNumber = 15
+      #     $line = $fileContent.Split('\n')[$lineNumber-1]
+      #     $newLine = $line.Substring(0,$line.Length-2) + ", $projectName ]"
+      #     $newFileContent = $fileContent -Replace [regex]::escape($line), $newLine
 
-          Set-Content -Path $file -Value $newFileContent
+      #     Set-Content -Path $file -Value $newFileContent
 
-          git config --global user.email $gitUserEmail
-          git config --global user.name $gitUserName
-          git add $file
-          git commit -m "add $projectName to sync automation"
-          git push origin main
+      #     git config --global user.email $gitUserEmail
+      #     git config --global user.name $gitUserName
+      #     git add $file
+      #     git commit -m "add $projectName to sync automation"
+      #     git push origin main
 
-      - name: Execute fork creation
-        id: execute_fork_creation
-        shell: pwsh
-        run: |
-          $projectRepo = "${{ inputs.proj_original_repo }}"
-          $projectName = "${{ inputs.proj_name }}"
-          $pfRepo = "pipeline-foundation/$projectName"
+      # - name: Execute fork creation
+      #   id: execute_fork_creation
+      #   shell: pwsh
+      #   run: |
+      #     $projectRepo = "${{ inputs.proj_original_repo }}"
+      #     $projectName = "${{ inputs.proj_name }}"
+      #     $pfRepo = "pipeline-foundation/$projectName"
 
-          Write-Output "`n`nCommencing Pipeline Foundation fork creation...`n`n"
+      #     Write-Output "`n`nCommencing Pipeline Foundation fork creation...`n`n"
 
-          Start-Job -Name Create_PF_Fork -ScriptBlock {
-            $newProject = "https://api.github.com/repos/$Using:projectRepo/forks"
-            $basicBase64Token = "${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}"
-            $headers = @{
-              'Accept'        = 'application/vnd.github.v3+json';
-              'Authorization' = "Basic {0}" -f $basicBase64Token;
-            }
-            $body = @{
-              organization = 'pipeline-foundation'
-            } | ConvertTo-Json
+      #     Start-Job -Name Create_PF_Fork -ScriptBlock {
+      #       $newProject = "https://api.github.com/repos/$Using:projectRepo/forks"
+      #       $basicBase64Token = "${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}"
+      #       $headers = @{
+      #         'Accept'        = 'application/vnd.github.v3+json';
+      #         'Authorization' = "Basic {0}" -f $basicBase64Token;
+      #       }
+      #       $body = @{
+      #         organization = 'pipeline-foundation'
+      #       } | ConvertTo-Json
 
-            Invoke-RestMethod -Method POST -Headers $headers -Uri $newProject -Body $body
-          }
+      #       Invoke-RestMethod -Method POST -Headers $headers -Uri $newProject -Body $body
+      #     }
 
-          Wait-Job -Name Create_PF_Fork
+      #     Wait-Job -Name Create_PF_Fork
 
-          Write-Output "`n`nPipeline Foundation fork created!`n`n"
+      #     Write-Output "`n`nPipeline Foundation fork created!`n`n"
 
-          Write-Output "`n`nCommencing Pipeline Foundation fork branches creation...`n`n"
+      #     Write-Output "`n`nCommencing Pipeline Foundation fork branches creation...`n`n"
 
-          Start-Job -Name Create_PF_Fork_Branches -ScriptBlock {
-            $branchesArr = @(
-              'codespace',
-              'dependabot',
-              'codeql',
-              'ci-cd'
-            )
-            $pfUri = "https://api.github.com/repos/$Using:pfRepo"
-            $defaultBranch = Invoke-RestMethod -Method GET -Uri $pfUri | Select-Object -ExpandProperty default_branch
+      #     Start-Job -Name Create_PF_Fork_Branches -ScriptBlock {
+      #       $branchesArr = @(
+      #         'codespace',
+      #         'dependabot',
+      #         'codeql',
+      #         'ci-cd'
+      #       )
+      #       $pfUri = "https://api.github.com/repos/$Using:pfRepo"
+      #       $defaultBranch = Invoke-RestMethod -Method GET -Uri $pfUri | Select-Object -ExpandProperty default_branch
 
-            git clone https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/$Using:pfRepo.git
-            Push-Location $Using:projectName
-            git checkout $defaultBranch
-            foreach ($branch in $branchesArr) {
-              git branch feature/$branch
-              git checkout feature/$branch
-              git push origin feature/$branch
-              git checkout $defaultBranch
-            }
-          }
+      #       git clone https://token:${{ secrets.PF_ACCESS_TOKEN }}@github.com/$Using:pfRepo.git
+      #       Push-Location $Using:projectName
+      #       git checkout $defaultBranch
+      #       foreach ($branch in $branchesArr) {
+      #         git branch feature/$branch
+      #         git checkout feature/$branch
+      #         git push origin feature/$branch
+      #         git checkout $defaultBranch
+      #       }
+      #     }
 
-          Wait-Job -Name Create_PF_Fork_Branches
+      #     Wait-Job -Name Create_PF_Fork_Branches
 
-          Write-Output "`n`nPipeline Foundation fork branches created!`n`n"
+      #     Write-Output "`n`nPipeline Foundation fork branches created!`n`n"
 
-          Write-Output "`n`nCommencing members fork creation...`n`n"
+      #     Write-Output "`n`nCommencing members fork creation...`n`n"
 
-          $membersArr = @(
-            [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" },
-            [pscustomobject]@{ name = "szlatkow"; token = "${{ secrets.SZLATKOW_GITHUB_TOKEN }}" }
-          )
-          $pfProjectFork = "https://api.github.com/repos/$pfRepo/forks"
+      #     $membersArr = @(
+      #       [pscustomobject]@{ name = "aleks-ivanov"; token = "${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}" },
+      #       [pscustomobject]@{ name = "szlatkow"; token = "${{ secrets.SZLATKOW_GITHUB_TOKEN }}" }
+      #     )
+      #     $pfProjectFork = "https://api.github.com/repos/$pfRepo/forks"
 
-          foreach ($member in $membersArr) {
-            $memberName = $member.name
-            $memberToken = $member.token
-            $basicToken = "${memberName}:${memberToken}"
-            $basicBase64Token = [System.Convert]::ToBase64String([char[]]$basicToken)
-            $headers = @{
-              'Accept'        = 'application/vnd.github.v3+json';
-              'Authorization' = "Basic {0}" -f $basicBase64Token;
-            }
-            $body = @{
-              owner = $memberName
-            } | ConvertTo-Json
+      #     foreach ($member in $membersArr) {
+      #       $memberName = $member.name
+      #       $memberToken = $member.token
+      #       $basicToken = "${memberName}:${memberToken}"
+      #       $basicBase64Token = [System.Convert]::ToBase64String([char[]]$basicToken)
+      #       $headers = @{
+      #         'Accept'        = 'application/vnd.github.v3+json';
+      #         'Authorization' = "Basic {0}" -f $basicBase64Token;
+      #       }
+      #       $body = @{
+      #         owner = $memberName
+      #       } | ConvertTo-Json
 
-            try {
-              Invoke-RestMethod -Method POST -Headers $headers -Uri $pfProjectFork -Body $body
-            }
-            catch {
-              Write-Output "Error!"
-            }
-          }
+      #       try {
+      #         Invoke-RestMethod -Method POST -Headers $headers -Uri $pfProjectFork -Body $body
+      #       }
+      #       catch {
+      #         Write-Output "Error!"
+      #       }
+      #     }
 
-          Write-Output "`n`nMembers fork created!`n`n"
+      #     Write-Output "`n`nMembers fork created!`n`n"

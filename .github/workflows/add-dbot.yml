@@ -104,47 +104,52 @@ jobs:
             New-Item -Name .github -ItemType Directory
           }
 
-          $dBotConfigPath = '.github/dependabot.yml'
-          $ghaLocation = Test-Path '.github/workflows'
-
-          # Checkout into the feature/dependabot branch, so that the dependabot.yml file is created there
-          git checkout $dependabotBranch
-
-          # Create dependabot.yml and start writing into it
-          Write-Output 'version: 2' | Add-Content $dBotConfigPath
-          Write-Output 'updates:' | Add-Content $dBotConfigPath
-
-          # add GitHub Action pipelines
-          if ( $ghaLocation ) {
-            Write-Output "  - package-ecosystem: 'github-actions'" | Add-Content $dBotConfigPath
-            Write-Output "    # default location of '.github/workflows'" | Add-Content $dBotConfigPath
-            Write-Output "    directory: '/'" | Add-Content $dBotConfigPath
-            Write-Output '    open-pull-requests-limit: 10' | Add-Content $dBotConfigPath
-            Write-Output '    schedule:' | Add-Content $dBotConfigPath
-            Write-Output "      interval: 'weekly'" | Add-Content $dBotConfigPath
-            Write-Output "    # target-branch: 'develop'" | Add-Content $dBotConfigPath
-            Write-Output '    # assignees:' | Add-Content $dBotConfigPath
-            Write-Output '    #   - assignee_one' | Add-Content $dBotConfigPath
-            Write-Output '    # reviewers:' | Add-Content $dBotConfigPath
-            Write-Output '    #   - reviewer_one' | Add-Content $dBotConfigPath
+          if ( Test-Path -Path .github/dependabot.yml ) {
+            Write-Output "Dependabot is already set up!"
           }
+          else {
+            $dBotConfigPath = '.github/dependabot.yml'
+            $ghaLocation = Test-Path '.github/workflows'
 
-          foreach ( $ecosystem in $dependabotEcosystemsCollection ) {
-            $ecosystemName = $ecosystem.name
-            $ecosystemFiles = $ecosystem.files
+            # Checkout into the feature/dependabot branch, so that the dependabot.yml file is created there
+            git checkout $dependabotBranch
 
-            $fileLocations = Get-DependenciesSourceParentFolder -SearchIncludes $ecosystemFiles
-            if ( $null -ne $fileLocations ) {
-              Add-ContentToDependabotConfig -LocationsArray $fileLocations -EcosystemName $ecosystemName
+            # Create dependabot.yml and start writing into it
+            Write-Output 'version: 2' | Add-Content $dBotConfigPath
+            Write-Output 'updates:' | Add-Content $dBotConfigPath
+
+            # add GitHub Action pipelines
+            if ( $ghaLocation ) {
+              Write-Output "  - package-ecosystem: 'github-actions'" | Add-Content $dBotConfigPath
+              Write-Output "    # default location of '.github/workflows'" | Add-Content $dBotConfigPath
+              Write-Output "    directory: '/'" | Add-Content $dBotConfigPath
+              Write-Output '    open-pull-requests-limit: 10' | Add-Content $dBotConfigPath
+              Write-Output '    schedule:' | Add-Content $dBotConfigPath
+              Write-Output "      interval: 'weekly'" | Add-Content $dBotConfigPath
+              Write-Output "    # target-branch: 'develop'" | Add-Content $dBotConfigPath
+              Write-Output '    # assignees:' | Add-Content $dBotConfigPath
+              Write-Output '    #   - assignee_one' | Add-Content $dBotConfigPath
+              Write-Output '    # reviewers:' | Add-Content $dBotConfigPath
+              Write-Output '    #   - reviewer_one' | Add-Content $dBotConfigPath
             }
+
+            foreach ( $ecosystem in $dependabotEcosystemsCollection ) {
+              $ecosystemName = $ecosystem.name
+              $ecosystemFiles = $ecosystem.files
+
+              $fileLocations = Get-DependenciesSourceParentFolder -SearchIncludes $ecosystemFiles
+              if ( $null -ne $fileLocations ) {
+                Add-ContentToDependabotConfig -LocationsArray $fileLocations -EcosystemName $ecosystemName
+              }
+            }
+
+            # Add Pipeline Foundation credentials
+            Write-Output '' | Add-Content $dBotConfigPath
+            Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath
+
+            git config --global user.email $memberEmail
+            git config --global user.name $memberName
+            git add $dBotConfigPath
+            git commit -m "Create Dependabot configuration"
+            git push origin $dependabotBranch
           }
-
-          # Add Pipeline Foundation credentials
-          Write-Output '' | Add-Content $dBotConfigPath
-          Write-Output '# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)' | Add-Content $dBotConfigPath
-
-          git config --global user.email $memberEmail
-          git config --global user.name $memberName
-          git add $dBotConfigPath
-          git commit -m "Create Dependabot configuration"
-          git push origin $dependabotBranch

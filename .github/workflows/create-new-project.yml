@@ -4,6 +4,10 @@ on:
   issues:
     types: [ opened ]
   workflow_dispatch:
+    inputs:
+      repo-name:
+        description: 'Name of the new repository.'
+        required: true
 
 jobs:
   data:
@@ -18,32 +22,40 @@ jobs:
         id: project_info
         shell: pwsh
         run: |
-          $projOriginalRepo = "${{ github.event.issue.title }}"
+          # $projOriginalRepo = "${{ github.event.issue.title }}"
+          $projOriginalRepo = "${{ github.event.inputs.repo-name }}"
           $projName = $projOriginalRepo.Split('/')[1]
 
           echo "::set-output name=proj_original_repo::$(echo $projOriginalRepo)"
           echo "::set-output name=proj_name::$(echo $projName)"
 
-  create-forks:
-    needs: data
-    name: Create forks
-    uses: pipeline-foundation/reusable-workflows/.github/workflows/create-forks.yml@v1
-    with:
-      proj_original_repo: ${{ needs.data.outputs.proj_original_repo }}
-      proj_name: ${{ needs.data.outputs.proj_name }}
-    secrets:
-      azdo_token: ${{ secrets.ISSUE_TO_AZDO_WORKITEM }}
-      pf_token: ${{ secrets.PF_ACCESS_TOKEN }}
-      pf_token_64: ${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}
-      aivanov_token: ${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}
-      szlatkow_token: ${{ secrets.SZLATKOW_GITHUB_TOKEN }}
+  # create-forks:
+  #   needs: data
+  #   name: Create forks
+  #   uses: pipeline-foundation/reusable-workflows/.github/workflows/create-forks.yml@v1
+  #   with:
+  #     proj_original_repo: ${{ needs.data.outputs.proj_original_repo }}
+  #     proj_name: ${{ needs.data.outputs.proj_name }}
+  #   secrets:
+  #     azdo_token: ${{ secrets.ISSUE_TO_AZDO_WORKITEM }}
+  #     pf_token: ${{ secrets.PF_ACCESS_TOKEN }}
+  #     pf_token_64: ${{ secrets.PF_ACCESS_BASE64_BASIC_TOKEN }}
+  #     aivanov_token: ${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}
+  #     szlatkow_token: ${{ secrets.SZLATKOW_GITHUB_TOKEN }}
 
-  add-dbot:
-    needs: [ data, create-forks ]
-    name: Add Dependabot
-    uses: pipeline-foundation/reusable-workflows/.github/workflows/add-dbot.yml@v1
+  # add-dbot:
+  #   needs: [ data, create-forks ]
+  #   name: Add Dependabot
+  #   uses: pipeline-foundation/reusable-workflows/.github/workflows/add-dbot.yml@v1
+  #   with:
+  #     repo: ${{ needs.data.outputs.proj_name }}
+  #   secrets:
+  #     aivanov_token: ${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}
+  #     szlatkow_token: ${{ secrets.SZLATKOW_GITHUB_TOKEN }}
+
+  test:
+    needs: data
+    name: Test
+    uses: pipeline-foundation/reusable-workflows/.github/workflows/test.yml@v1
     with:
       repo: ${{ needs.data.outputs.proj_name }}
-    secrets:
-      aivanov_token: ${{ secrets.ALEKS_IVANOV_GITHUB_TOKEN }}
-      szlatkow_token: ${{ secrets.SZLATKOW_GITHUB_TOKEN }}

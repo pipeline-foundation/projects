@@ -26,7 +26,7 @@ jobs:
   create-forks:
     needs: data
     name: Create forks
-    uses: pipeline-foundation/reusable-workflows/.github/workflows/create-forks.yml@v1
+    uses: pipeline-foundation/reusable-workflows/.github/workflows/create-forks.yml@v1.0.0
     with:
       proj_original_repo: ${{ needs.data.outputs.proj_original_repo }}
       proj_name: ${{ needs.data.outputs.proj_name }}
@@ -40,7 +40,7 @@ jobs:
   add-dbot:
     needs: [ data, create-forks ]
     name: Add Dependabot
-    uses: pipeline-foundation/reusable-workflows/.github/workflows/add-dbot.yml@v1
+    uses: pipeline-foundation/reusable-workflows/.github/workflows/add-dbot.yml@v1.0.0
     with:
       repo: ${{ needs.data.outputs.proj_name }}
     secrets:
